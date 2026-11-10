@@ -13,7 +13,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#2E9E6B">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light only">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232E9E6B'/%3E%3Cpath d='M7 4h8l3 3v13H7z' fill='white'/%3E%3Cpath d='M12.5 10v6M9.5 13h6' stroke='%232E9E6B' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,13 +26,15 @@ img { max-width: 100%; }
 [hidden] { display: none !important; }
 </style>
 <style>
-/* Layout: a calm single column that opens onto a horizontal shelf of phones — the app shown, not described. */
+/* Single light look, matching the app (which is light-only). Green is for actions and "done"; blue-grey bands separate sections.
+   Layout: a calm single column that opens onto a horizontal shelf of phones — the app shown, not described. */
 :root {
-  --bg: #FBFDFC;
-  --bg-band: #EEF6F2;
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --bg-band: #F3F6F9;
   --ink: #17232E;
-  --ink-soft: #4F5D69;
-  --line: #DCE6E2;
+  --ink-soft: #55626E;
+  --line: #E2E8EE;
   --green: #2E9E6B;
   --green-deep: #217A52;
   --green-tint: #E3F3EA;
@@ -61,20 +64,6 @@ img { max-width: 100%; }
   --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0F1714; --bg-band: #15211C; --ink: #E7EFEB; --ink-soft: #A3B3AC; --line: #26352F;
-    --green: #4CC08B; --green-deep: #7AD6AA; --green-tint: #183327; --blue: #6EA8DD; --blue-tint: #172838;
-    --amber: #E8B464; --paper: #16201C; --rx-ink: #A9C1F5; --ph-frame: #05090B;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0F1714; --bg-band: #15211C; --ink: #E7EFEB; --ink-soft: #A3B3AC; --line: #26352F;
-  --green: #4CC08B; --green-deep: #7AD6AA; --green-tint: #183327; --blue: #6EA8DD; --blue-tint: #172838;
-  --amber: #E8B464; --paper: #16201C; --rx-ink: #A9C1F5; --ph-frame: #05090B;
-  color-scheme: dark;
-}
 
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; }
@@ -86,7 +75,7 @@ h1 { font-size: clamp(2.2rem, 5.4vw, 3.6rem); line-height: 1.05; font-weight: 70
 h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.15; font-weight: 700; }
 h3 { font-size: 1.2rem; font-weight: 600; }
 p { margin: 0; max-width: 62ch; }
-.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-deep); }
+.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
 .lede { font-size: 1.15rem; color: var(--ink-soft); }
 .stack { display: flex; flex-direction: column; gap: 16px; }
 a { color: var(--green-deep); }
@@ -322,6 +311,42 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
 .support-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 @media (max-width: 760px) { .support, .costs { grid-template-columns: minmax(0, 1fr); } }
 
+
+/* ---- phones: card groups become one swipeable row instead of a long stack ---- */
+@media (max-width: 620px) {
+  section { padding-block: 36px; }
+  .showcase { padding-block: 36px; }
+  h2 { font-size: 1.5rem; }
+  .lede { font-size: 1.02rem; }
+  .swipe-m {
+    display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+    gap: 12px; margin-top: 20px;
+    margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-bottom: 6px; scroll-padding-left: max(16px, env(safe-area-inset-left, 0px)); scrollbar-width: none;
+  }
+  .swipe-m::-webkit-scrollbar { display: none; }
+  .swipe-m > * { flex: 0 0 84%; min-width: 0; scroll-snap-align: start; }
+  .qs.swipe-m > li, .costs.swipe-m > li, .nlist.swipe-m > li { flex-basis: 78%; }
+  .nlist.swipe-m > li { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+  .costs.swipe-m { margin-top: 4px; }
+  .costs.swipe-m > li { background: var(--paper); border: 1px solid var(--line); border-top: 2px solid var(--green-tint); border-radius: 12px; padding: 12px; }
+  p.swipe-hint { display: block; }
+  /* the real examples: drop the arrow and the long footnote on phones */
+  .exstage > .demo { gap: 10px; }
+  .exstage .arrow { display: none; }
+  .exstage .anote { display: none; }
+  .notify { gap: 20px; margin-top: 20px; }
+  .notify > .swipe-m { justify-self: stretch; min-width: 0; }
+  .support { padding: 18px; gap: 12px; }
+  .ask { gap: 24px; }
+  .idea textarea { min-height: 100px; }
+  .split { gap: 28px; }
+  .ticks { gap: 8px; }
+}
+.swipe-hint { display: none; font-family: var(--f-mono); font-size: .75rem; color: var(--ink-soft); margin-top: 8px; }
+
 /* ---- notifications on a lock screen ---- */
 .notify { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; margin-top: 28px; }
 .notify > * { min-width: 0; }
@@ -404,12 +429,13 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
   <section class="wrap">
     <p class="eyebrow">Why we're building this</p>
     <h2 style="margin-top:8px">Sound familiar?</h2>
-    <div class="pains">
+    <div class="pains swipe-m">
       <div class="pain"><q>The doctor asked for my last HbA1c and I was scrolling WhatsApp for ten minutes.</q><span>Reports live in chats, the gallery, email and a plastic folder at home.</span></div>
       <div class="pain"><q>I manage my parents' medicines from another city.</q><span>Did Appa take the night dose? Is the BP tablet about to run out?</span></div>
       <div class="pain"><q>Every new doctor asks the same questions.</q><span>Allergies, old prescriptions, what was tried before. Nobody remembers it all.</span></div>
       <div class="pain"><q>When is the insurance premium due again?</q><span>Policies, cards and claim papers end up scattered across the family.</span></div>
     </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe for more →</p>
   </section>
 </div>
 
@@ -417,12 +443,13 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
   <p class="eyebrow">Getting records in</p>
   <h2 style="margin-top:8px">Start with what's already on your phone</h2>
   <p class="lede" style="margin-top:12px">No typing. The app finds health documents, reads them, and puts each one under the right person. Anything it isn't sure about is marked for you to check.</p>
-  <div class="sources">
+  <div class="sources swipe-m">
     <div class="src"><span class="k now">Works now</span><h3>Phone gallery</h3><p>Scans photos of reports and prescriptions, on the phone, and skips selfies and memes.</p></div>
     <div class="src"><span class="k now">Works now</span><h3>PDFs and folders</h3><p>Lab PDFs, including password-locked ones. Watch a folder and new reports come in by themselves.</p></div>
     <div class="src"><span class="k now">Works now</span><h3>Share from WhatsApp</h3><p>Lab sent the report on WhatsApp? Share it to Health Journal.</p></div>
     <div class="src"><span class="k soon">Coming</span><h3>ABHA and Gmail</h3><p>Records from hospitals linked to your ABHA address, and reports that arrive by email.</p></div>
   </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe for more →</p>
 </section>
 
 <div class="band">
@@ -779,7 +806,7 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
           <div class="nt"><div class="app"><span>Health Journal</span><span>10:00 AM</span></div><b>Amma's medicines are running low</b><span>Telma 40 runs out around 14 Nov. Tap to reorder.</span></div>
         </div>
       </div></div>
-      <ul class="nlist">
+      <ul class="nlist swipe-m">
         <li><span class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="9" width="14" height="6" rx="3"/><path d="M12 9v6"/></svg></span><div><b>Medicine times</b><span>One reminder per person and time, listing what to take. “Taken ✓” or “Remind in 15 min” right there. Tap it for the big-photo screen.</span></div></li>
         <li><span class="ni b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-1a4 4 0 0 0-5-3.9M9 20H2v-1a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1zM7 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></span><div><b>Family alerts</b><span>If Appa's dose still isn't marked an hour later, you hear about it, once, so you can call and check.</span></div></li>
         <li><span class="ni b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span><div><b>Doctor visits</b><span>Three days before if tests are still pending, the evening before, and that morning.</span></div></li>
@@ -793,7 +820,7 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
   <p class="eyebrow">Real-life moments</p>
   <h2 style="margin-top:8px">Made for how records actually look</h2>
   <p class="lede" style="margin-top:12px">Locked PDFs, misspelled names, duplicates, old prescriptions. This is where most apps get it wrong.</p>
-  <div class="moments">
+  <div class="moments swipe-m">
     <article class="moment">
       <h3>The lab’s PDF is password-locked</h3>
       <div class="flow" aria-hidden="true"><span class="tok lock">Report.pdf · locked</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg><span class="tok ok">Opened · 14 values</span></div>
@@ -825,6 +852,7 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
       <p>If something doesn’t look like a health record, the app says so and lets you decide, instead of filing it as a report.</p>
     </article>
   </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe for more →</p>
 </section>
 
 <div class="band">
@@ -857,7 +885,7 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
 <section class="wrap">
   <p class="eyebrow">Where we are</p>
   <h2 style="margin-top:8px">What's built, and what's next</h2>
-  <div class="road">
+  <div class="road swipe-m">
     <div><h3>Working <span class="badge now">now</span></h3>
       <ul><li>Reports, prescriptions and bills read automatically</li><li>Medicine reminders, family alerts, stock and refills</li><li>Body view and search</li><li>Test trends across labs</li><li>Doctor visits with advised tests</li><li>Family sharing and emergency cards</li><li>Insurance and a family calendar</li></ul></div>
     <div><h3>Next <span class="badge next">soon</span></h3>
@@ -865,13 +893,14 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
     <div><h3>Later <span class="badge later">planned</span></h3>
       <ul><li>A voice assistant for elders that talks in Indian languages: “Did I take my BP tablet?”, “When is my next visit?”</li><li>Hindi and other Indian languages across the app</li><li>iPhone app on the App Store</li><li>ABHA records from linked hospitals</li><li>What you tell us below</li></ul></div>
   </div>
+    <p class="swipe-hint" aria-hidden="true">Swipe for more →</p>
   <div class="support" id="support">
     <div class="stack" style="gap:10px">
       <p class="eyebrow">Help us build it</p>
       <h3>Making this costs money. If you'd like to help, every bit counts.</h3>
       <p>We're building it ourselves, without investors or ads. A small contribution goes straight into what blocks the next step:</p>
     </div>
-    <ul class="costs">
+    <ul class="costs swipe-m">
       <li><b>iPhone app</b><span>An Apple developer account ($99 a year) to put it on the App Store. Right now it only runs on our own phones.</span></li>
       <li><b>Play Store</b><span>A Google Play developer account, so Android users can install it normally.</span></li>
       <li><b>Private AI reading</b><span>Paid AI usage, so your documents aren't used to train anyone's models.</span></li>
@@ -907,7 +936,7 @@ footer { padding-block: 32px 48px; color: var(--ink-soft); font-size: 0.9rem; di
     </div>
     <div class="stack">
       <p class="lbl" style="margin:0">Not sure what to write? Tap a question to answer it.</p>
-      <ol class="qs" id="qs"><li><button type="button" class="q">Whose health records do you look after: yours, your parents’, your children’s?</button></li><li><button type="button" class="q">Where do your reports and prescriptions live today: WhatsApp, gallery, email, a file at home?</button></li><li><button type="button" class="q">What’s the most annoying part of keeping track right now?</button></li><li><button type="button" class="q">Which would you use first: medicine reminders, test trends, the emergency card, insurance or visit reminders?</button></li><li><button type="button" class="q">What would you need to know about privacy before uploading your family’s reports?</button></li></ol>
+      <ol class="qs swipe-m" id="qs"><li><button type="button" class="q">Whose health records do you look after: yours, your parents’, your children’s?</button></li><li><button type="button" class="q">Where do your reports and prescriptions live today: WhatsApp, gallery, email, a file at home?</button></li><li><button type="button" class="q">What’s the most annoying part of keeping track right now?</button></li><li><button type="button" class="q">Which would you use first: medicine reminders, test trends, the emergency card, insurance or visit reminders?</button></li><li><button type="button" class="q">What would you need to know about privacy before uploading your family’s reports?</button></li></ol>
       <div class="cta-row"><button class="btn btn-ghost" type="button" id="copy-qs">Copy the questions for a Reddit reply</button></div>
       <div class="copied" id="copy-status" role="status" aria-live="polite"></div>
     </div>
